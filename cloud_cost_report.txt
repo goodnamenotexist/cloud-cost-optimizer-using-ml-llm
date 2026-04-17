@@ -9,7 +9,7 @@ AI CLOUD COST OPTIMIZATION REPORT
 ML Prediction: Inefficient Resource
 
 AI Insight:
-latency may indicate poor network configuration. Optimizing throughput improves performance and should be downsized. High latency may indicate poor network configuration. Optimizing throughput improves performance and should be downsized. High memory
+by optimizing unused resources. Inefficient cloud usage suggests over provisioning of resources. Cloud cost efficiency. Storage optimization can significantly reduce cloud usage leads to unnecessary expenses. Scaling resources dynamically improves cost
 
 Recommendations:
 • Optimize resource allocation
@@ -18,7 +18,7 @@ Recommendations:
 
 Estimated Cost:
 Current Cost   : $1250.75
-Optimized Cost : $988.0925
-Savings        : $262.6575 (21%)
+Optimized Cost : $1125.675
+Savings        : $125.075 (10%)
 
 ==================================================

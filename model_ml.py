@@ -1,8 +1,9 @@
 import pandas as pd
+import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     accuracy_score,
@@ -16,10 +17,14 @@ from sklearn.metrics import (
 df = pd.read_csv("Cloud_Dataset.csv")
 
 
-# 2. Create Target Column
-# 1 = inefficient (needs optimization)
-# 0 = efficient
-df["target"] = (df["utilization"] < 30).astype(int)
+df["target"] = (
+    (df["utilization"] < 30) &
+    (df["cpu_usage"] < 50) &
+    (df["memory_usage"] < 60)
+).astype(int)
+
+noise = np.random.rand(len(df)) < 0.1
+df.loc[noise, "target"] = 1 - df.loc[noise, "target"]
 
 # 3. Select Features
 features = ["cpu_usage","memory_usage","disk_io","latency_ms","throughput","cost"]
@@ -33,13 +38,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # 5. Train Model
-model = RandomForestClassifier(n_estimators=100)
-
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
 # 6. Predictions
 pred = model.predict(X_test)
-
 
 # 7. Evaluation Metrics
 accuracy = accuracy_score(y_test, pred)
@@ -48,19 +51,23 @@ recall = recall_score(y_test, pred)
 f1 = f1_score(y_test, pred)
 cm = confusion_matrix(y_test, pred)
 
-# 8. Print Results
-print("===== MODEL PERFORMANCE =====")
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
-print("F1 Score:", f1)
-print("Confusion Matrix:\n", cm)
+# 8. Cross Validation (NEW 🔥)
+cv_scores = cross_val_score(model, X, y, cv=5)
 
-# 9. Save Model
+# 9. Print Results
+print("\n===== MODEL PERFORMANCE =====")
+print(f"Accuracy        : {accuracy:.2f}")
+print(f"Precision       : {precision:.2f}")
+print(f"Recall          : {recall:.2f}")
+print(f"F1 Score        : {f1:.2f}")
+print(f"Confusion Matrix:\n{cm}")
+print(f"Cross-val Score : {cv_scores.mean():.2f}")
+
+# 10. Save Model
 joblib.dump(model, "cloud_model.pkl")
 print("\nModel saved as cloud_model.pkl")
 
-# 10. Save Metrics
+# 11. Save Metrics
 with open("model_metrics.txt", "w") as f:
     f.write("MODEL PERFORMANCE\n")
     f.write("=================\n")
@@ -69,10 +76,11 @@ with open("model_metrics.txt", "w") as f:
     f.write(f"Recall: {recall}\n")
     f.write(f"F1 Score: {f1}\n")
     f.write(f"Confusion Matrix:\n{cm}\n")
+    f.write(f"Cross Validation: {cv_scores.mean()}\n")
 
 print("Metrics saved as model_metrics.txt")
 
-# 11. Feature Importance (Bonus)
+# 12. Feature Importance
 importances = model.feature_importances_
 
 plt.figure()

@@ -6,7 +6,6 @@ with open("llm_training_data.txt") as f:
 
 words = text.split()
 
-# Build Markov model
 model = {}
 
 for i in range(len(words) - 1):

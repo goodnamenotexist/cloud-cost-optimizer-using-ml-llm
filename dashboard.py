@@ -18,7 +18,6 @@ if uploaded_file is not None:
     st.subheader("Uploaded Cloud Data")
     st.json(data)
 
-    # Convert JSON to chart data
     metrics = []
     values = []
 
@@ -27,7 +26,6 @@ if uploaded_file is not None:
             metrics.append(key)
             values.append(value)
 
-    # Create chart
     chart_data = {"Metric": metrics, "Value": values}
 
     fig = px.bar(chart_data, x="Metric", y="Value", title="Cloud System Metrics")
@@ -35,7 +33,6 @@ if uploaded_file is not None:
     st.subheader("Cloud Metrics Overview")
     st.plotly_chart(fig, use_container_width=True)
 
-    # Show cost separately
     if "cost" in data:
         st.metric("Current Cloud Cost", f"${data['cost']}")
 

@@ -8,7 +8,7 @@ from aws_s3_uploader import upload_report_to_s3
 
 print("Fetching cloud data from AWS S3...\n")
 
-# Load data from S3 instead of local file
+# Load data from S3
 try:
     all_data = get_data_from_s3()
 except Exception as e:
@@ -18,7 +18,7 @@ except Exception as e:
 
 print("Analyzing cloud cost using AI...\n")
 
-# Handle single object or list
+
 chunks = all_data if isinstance(all_data, list) else [all_data]
 
 for i, cost_chunk in enumerate(chunks, start=1):
@@ -33,7 +33,6 @@ for i, cost_chunk in enumerate(chunks, start=1):
         print(result)
         print("\n")
 
-        # Save report locally
         save_report(result)
         upload_report_to_s3("cloud_cost_report.txt")
 
