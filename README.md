@@ -1,16 +1,16 @@
 # 🚀 AI-Based Cloud Cost Optimization System
 
 ## 📌 Overview
-This project is an AI-based system that detects inefficient cloud resource usage and generates cost optimization recommendations using Machine Learning and a Mini LLM.
+This project presents an AI-based system for optimizing cloud resource costs using Machine Learning and a Mini Language Model (LLM). The system analyzes cloud usage data to detect inefficient resources and generates intelligent optimization suggestions.
 
 ---
 
 ## ⚙️ Features
-- Machine Learning Model (Random Forest)
-- Mini LLM (Markov-based text generation)
-- AWS S3 Integration (Input + Output)
-- Streamlit Dashboard
-- Automated Report Generation
+- 🔹 Machine Learning Model (Random Forest)
+- 🔹 Mini LLM (Markov-based text generation)
+- 🔹 AWS S3 Integration (Input + Output)
+- 🔹 Streamlit Dashboard for visualization
+- 🔹 Automated Report Generation
 
 ---
 
@@ -24,13 +24,15 @@ This project is an AI-based system that detects inefficient cloud resource usage
 ---
 
 ## 📊 Dataset
-Cloud resource dataset containing:
-- CPU usage
-- Memory usage
+The dataset includes cloud resource usage metrics such as:
+- CPU Usage
+- Memory Usage
 - Disk I/O
 - Latency
 - Throughput
 - Cost
+
+A target variable is created based on utilization to classify resources as efficient or inefficient.
 
 ---
 
@@ -47,4 +49,15 @@ Cloud resource dataset containing:
 
 ### 1. Train Model
 ```bash
-python train_model.py
+python model_ml.py
+```
+### 2. Run Main System
+```bash
+python main.py
+```
+### 3. Run Dashboard
+```bash
+streamlit run dashboard.py
+```
+
+---
