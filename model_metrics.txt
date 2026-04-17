@@ -1,0 +1,9 @@
+MODEL PERFORMANCE
+=================
+Accuracy: 0.99
+Precision: 0.9629629629629629
+Recall: 0.9629629629629629
+F1 Score: 0.9629629629629629
+Confusion Matrix:
+[[172   1]
+ [  1  26]]

@@ -1,0 +1,10 @@
+Low CPU usage indicates that the instance is underutilized and should be downsized.
+High memory allocation with low usage suggests over provisioning of resources.
+Cloud cost can be reduced by optimizing unused resources.
+Inefficient cloud usage leads to unnecessary expenses.
+Scaling resources dynamically improves cost efficiency.
+Storage optimization can reduce long term cloud costs.
+High latency may indicate poor network configuration.
+Optimizing throughput improves performance and reduces cost.
+Reserved instances can significantly reduce cloud spending.
+Unused virtual machines should be terminated to save cost.

@@ -1,0 +1,8 @@
+{
+  "cpu_usage": 12,
+  "memory_usage": 88,
+  "disk_io": 75,
+  "latency_ms": 350,
+  "throughput": 120,
+  "cost": 1250.75
+}
