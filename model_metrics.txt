@@ -1,10 +1,12 @@
 MODEL PERFORMANCE
 =================
-Accuracy: 0.9
-Precision: 0.8928571428571429
-Recall: 0.5952380952380952
-F1 Score: 0.7142857142857143
-Confusion Matrix:
-[[155   3]
- [ 17  25]]
-Cross Validation: 0.889
+Accuracy          : 0.8950
+Precision         : 0.7931
+Recall            : 0.6053
+F1 Score          : 0.6866
+ROC-AUC           : 0.8437
+Cross-val Mean    : 0.8760
+Cross-val Std     : 0.0037
+Confusion Matrix  :
+[[156   6]
+ [ 15  23]]

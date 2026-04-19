@@ -1,7 +1,16 @@
 import streamlit as st
 import json
 import plotly.express as px
-from agents.cost_analyzer import analyze_cost
+import boto3
+import time
+
+# AWS Clients
+s3 = boto3.client("s3", region_name="us-east-1")
+lambda_client = boto3.client("lambda", region_name="us-east-1")
+
+BUCKET_NAME = "cloud-cost-optimizer-bucket"
+INPUT_FILE = "cost_data.json"
+OUTPUT_FILE = "cloud_cost_report.txt"
 
 st.set_page_config(page_title="AI Cloud Cost Optimization", layout="wide")
 
@@ -18,6 +27,9 @@ if uploaded_file is not None:
     st.subheader("Uploaded Cloud Data")
     st.json(data)
 
+    # -------------------------------
+    # VISUALIZATION
+    # -------------------------------
     metrics = []
     values = []
 
@@ -27,7 +39,6 @@ if uploaded_file is not None:
             values.append(value)
 
     chart_data = {"Metric": metrics, "Value": values}
-
     fig = px.bar(chart_data, x="Metric", y="Value", title="Cloud System Metrics")
 
     st.subheader("Cloud Metrics Overview")
@@ -36,11 +47,40 @@ if uploaded_file is not None:
     if "cost" in data:
         st.metric("Current Cloud Cost", f"${data['cost']}")
 
+    # -------------------------------
+    # BUTTON ACTION
+    # -------------------------------
     if st.button("Analyze Cost with AI"):
 
-        with st.spinner("AI analyzing cloud metrics..."):
+        with st.spinner("Uploading data to AWS S3..."):
 
-            result = analyze_cost(data)
+            # Upload JSON to S3
+            s3.put_object(
+                Bucket=BUCKET_NAME,
+                Key=INPUT_FILE,
+                Body=json.dumps(data)
+            )
 
-        st.subheader("AI Optimization Suggestions")
-        st.write(result)
+        with st.spinner("Triggering Lambda function..."):
+
+            # Trigger Lambda
+            lambda_client.invoke(
+                FunctionName="arn:aws:lambda:us-east-1:406271521365:function:cloud-project-3y",
+                InvocationType="Event"  # async trigger
+            )
+
+        with st.spinner("Waiting for analysis..."):
+
+            time.sleep(5)  # wait for Lambda execution
+
+        # Fetch result from S3
+        try:
+            response = s3.get_object(Bucket=BUCKET_NAME, Key=OUTPUT_FILE)
+            result = response["Body"].read().decode("utf-8")
+
+            st.subheader("AI Optimization Suggestions")
+            st.text(result)
+
+        except Exception as e:
+            st.error("Error fetching result from S3")
+            st.write(e)
