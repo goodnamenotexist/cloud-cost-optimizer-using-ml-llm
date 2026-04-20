@@ -1,7 +1,6 @@
 import random
 import os
 
-# ── Load training data ─────────────────────────────────────────
 file_path = os.path.join(os.path.dirname(__file__), "llm_training_data.txt")
 
 with open(file_path) as f:
@@ -39,20 +38,7 @@ RESOURCE_THRESHOLDS = {
 }
 
 def analyze_resources(resource_metrics: dict) -> dict:
-    """
-    Analyze each resource and return status + specific recommendations.
-
-    resource_metrics example:
-        {
-            "cpu": 72,
-            "memory": 85,
-            "disk_io": 30,
-            "network": 15,
-            "gpu": 20,
-            "idle_time": 40,
-            "instance_type": "compute"  # compute | memory | general | gpu | storage
-        }
-    """
+ 
     issues = []
     recommendations = []
     score = 100
@@ -67,7 +53,6 @@ def analyze_resources(resource_metrics: dict) -> dict:
     instance = resource_metrics.get("instance_type", "general")
     cost = resource_metrics.get("cost", 0)
 
-    # ── CPU ──
     if cpu > 85:
         issues.append("CPU overloaded")
         recommendations.append({
@@ -91,7 +76,6 @@ def analyze_resources(resource_metrics: dict) -> dict:
     else:
         resource_status["cpu"] = "Healthy"
 
-    # ── Memory ──
     if memory > 88:
         issues.append("Memory critically high — risk of OOM")
         recommendations.append({
@@ -161,7 +145,6 @@ def analyze_resources(resource_metrics: dict) -> dict:
     else:
         resource_status["disk_io"] = "Healthy"
 
-    # ── Network ──
     if network < 8:
         issues.append("Network bandwidth barely used")
         recommendations.append({
@@ -235,7 +218,6 @@ def format_report(analysis: dict, data: dict) -> str:
     score = analysis["score"]
     status = analysis["status"]
 
-    # Score bar (visual)
     filled = int(score / 5)
     bar = "█" * filled + "░" * (20 - filled)
 
@@ -257,7 +239,7 @@ def format_report(analysis: dict, data: dict) -> str:
 
     for resource, status_text in analysis["resource_status"].items():
         label = resource.replace("_", " ").title().ljust(14)
-        icon = "✔" if status_text in ("Healthy", "Good", "Normal") else "✘"
+        icon = "✅" if status_text in ("Healthy", "Good", "Normal") else "❌"
         lines.append(f"  {icon}  {label}  {status_text}")
 
     if analysis["issues"]:
@@ -299,11 +281,7 @@ def format_report(analysis: dict, data: dict) -> str:
 
 
 def generate_suggestion(prediction: int, data: dict) -> str:
-    """
-    prediction : 1 = inefficient, 0 = efficient
-    data       : dict with keys — cost, cpu, memory, disk_io,
-                 network, gpu, idle_time, instance_type
-    """
+
     analysis = analyze_resources(data)
 
     if prediction == 0 and analysis["score"] < 75:

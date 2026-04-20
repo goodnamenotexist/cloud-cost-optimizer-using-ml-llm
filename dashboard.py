@@ -27,9 +27,7 @@ if uploaded_file is not None:
     st.subheader("Uploaded Cloud Data")
     st.json(data)
 
-    # -------------------------------
-    # VISUALIZATION
-    # -------------------------------
+
     metrics = []
     values = []
 
@@ -47,9 +45,7 @@ if uploaded_file is not None:
     if "cost" in data:
         st.metric("Current Cloud Cost", f"${data['cost']}")
 
-    # -------------------------------
-    # BUTTON ACTION
-    # -------------------------------
+
     if st.button("Analyze Cost with AI"):
 
         with st.spinner("Uploading data to AWS S3..."):
@@ -66,12 +62,12 @@ if uploaded_file is not None:
             # Trigger Lambda
             lambda_client.invoke(
                 FunctionName="arn:aws:lambda:us-east-1:406271521365:function:cloud-project-3y",
-                InvocationType="Event"  # async trigger
+                InvocationType="Event"
             )
 
         with st.spinner("Waiting for analysis..."):
 
-            time.sleep(5)  # wait for Lambda execution
+            time.sleep(5)
 
         # Fetch result from S3
         try:

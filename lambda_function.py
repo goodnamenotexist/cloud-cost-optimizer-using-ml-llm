@@ -10,11 +10,9 @@ OUTPUT_FILE = "cloud_cost_report.txt"
 
 def lambda_handler(event, context):
 
-    # 1. Read input from S3
     response = s3.get_object(Bucket=BUCKET_NAME, Key=INPUT_FILE)
     data = json.loads(response["Body"].read())
 
-    # 2. Simple logic (lightweight)
     cpu = data.get("cpu_usage", 0)
 
     if cpu < 30:
@@ -22,14 +20,11 @@ def lambda_handler(event, context):
     else:
         prediction = 0
 
-    # 3. LLM generates output
     result = generate_suggestion(prediction, data)
 
-    # 4. Save in temp storage
     with open("/tmp/report.txt", "w") as f:
         f.write(result)
 
-    # 5. Upload to S3
     s3.upload_file("/tmp/report.txt", BUCKET_NAME, OUTPUT_FILE)
 
     return {
