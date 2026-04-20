@@ -8,7 +8,7 @@ The system analyzes cloud usage data, detects inefficient resources, and generat
 ---
 
 ## ⚙️ Features
-- Machine Learning Model (Random Forest – local)
+- 4 Machine Learning Models(Random Forest,SVM,Gradient Boosting, Logistic Regression)
 - Mini LLM (Markov-based suggestion generator)
 - AWS S3 Integration (Input + Output storage)
 - AWS Lambda (Serverless processing)
@@ -92,10 +92,12 @@ Streamlit Dashboard (Display)
 ## 🤖 AI Components
 
 ### 🔹 Machine Learning (Local)
-- Algorithm: Random Forest  
+- Algorithms Used: Random Forest, Gradient Boosting, Logistic Regression, SVM  
+- Performs model comparison to identify the best-performing model  
+- Random Forest selected based on highest F1-score and overall performance  
 - Predicts inefficient resource usage  
-- Saved as `cloud_model.pkl`  
-- Not deployed in Lambda due to dependency limitations  
+- Final model saved as `cloud_model.pkl`  
+- Executed locally (not deployed in Lambda due to dependency limitations)
 
 ---
 
