@@ -1,0 +1,36 @@
+MODEL COMPARISON RESULTS
+========================
+
+Random Forest
+  Accuracy  : 0.9150
+  Precision : 0.8667
+  Recall    : 0.6667
+  F1 Score  : 0.7536
+  ROC-AUC   : 0.8295
+  CV F1     : 0.6378 (+/- 0.0201)
+
+Gradient Boosting
+  Accuracy  : 0.8650
+  Precision : 0.7000
+  Recall    : 0.5385
+  F1 Score  : 0.6087
+  ROC-AUC   : 0.8186
+  CV F1     : 0.6039 (+/- 0.0349)
+
+Logistic Regression
+  Accuracy  : 0.7050
+  Precision : 0.3780
+  Recall    : 0.7949
+  F1 Score  : 0.5124
+  ROC-AUC   : 0.8245
+  CV F1     : 0.4426 (+/- 0.0473)
+
+SVM
+  Accuracy  : 0.8800
+  Precision : 0.6829
+  Recall    : 0.7179
+  F1 Score  : 0.7000
+  ROC-AUC   : 0.8533
+  CV F1     : 0.5848 (+/- 0.0308)
+
+Best model: Random Forest
