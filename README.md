@@ -116,5 +116,9 @@ python model_ml.py
 ```bash
 streamlit run dashboard.py
 ```
+## 🐳 Run with Docker
+```bash
+docker run -p 8501:8501 yourusername/cloud-cost-app
+```
 
 ---
